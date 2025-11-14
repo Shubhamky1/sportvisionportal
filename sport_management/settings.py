@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-k(z6^ud@=(1&_z39=v2!q=glw=-^vs5pb$1%s_aw531*7qmn-y
 DEBUG = True
 
 
-ALLOWED_HOSTS = ['sportvisionportal.onrender.com']
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -148,5 +148,3 @@ STATICFILES_DIRS = []
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-import dj_database_url
-DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
