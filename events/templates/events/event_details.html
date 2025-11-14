@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Event Details</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="shortcut icon"
+      href="https://www.freeiconspng.com/uploads/gold-trophy-transparent-1.png"
+      type="image/png">
+<link rel="icon"
+      href="https://www.freeiconspng.com/uploads/gold-trophy-transparent-1.png"
+      type="image/png">
+</head>
+
+<body class="bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white min-h-screen flex items-center justify-center p-6">
+
+  <div class="max-w-3xl w-full bg-white/10 backdrop-blur-lg border border-white/20 shadow-2xl rounded-3xl p-8">
+
+    <!-- Event Title -->
+    <div class="text-center mb-10">
+      <h1 class="text-4xl font-extrabold text-yellow-300 drop-shadow">
+        {{ event.name }}
+      </h1>
+
+      <p class="text-gray-300 mt-3 text-lg">📅 {{ event.date }}</p>
+      <p class="text-gray-300 text-lg">📍 {{ event.location }}</p>
+    </div>
+
+    <!-- Matches Section -->
+    <h2 class="text-3xl font-bold text-blue-300 mb-4">⚔ Matches in this Event</h2>
+
+    <div class="space-y-4">
+      {% for m in matches %}
+      <a href="{% url 'match_details' m.pk %}"
+         class="block bg-white/10 hover:bg-white/20 p-5 rounded-xl transition shadow-md border border-white/10">
+        <div class="flex justify-between items-center">
+          <span class="text-xl font-bold text-blue-200">
+            {{ m.team1.name }} vs {{ m.team2.name }}
+          </span>
+          <span class="text-gray-300">{{ m.match_date }}</span>
+        </div>
+        <p class="text-gray-400 text-sm mt-1">🏆 Click to view full match details</p>
+      </a>
+
+      {% empty %}
+        <p class="text-gray-400 italic">No matches available.</p>
+      {% endfor %}
+    </div>
+
+    <!-- Back Button -->
+    <div class="text-center mt-10">
+      <a href="{% url 'event_list' %}"
+         class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg shadow-lg transition">
+        ⬅ Back to Events
+      </a>
+    </div>
+
+  </div>
+
+</body>
+</html>

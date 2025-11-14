@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Update Skills</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="shortcut icon"
+      href="https://www.freeiconspng.com/uploads/gold-trophy-transparent-1.png"
+      type="image/png">
+<link rel="icon"
+      href="https://www.freeiconspng.com/uploads/gold-trophy-transparent-1.png"
+      type="image/png">
+  <style>
+    textarea {
+      color: black;
+      background-color: white;
+      border-radius: 0.5rem;
+      padding: 10px;
+      width: 100%;
+      border: none;
+      outline: none;
+    }
+    label {
+      color: #facc15;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-blue-700 via-blue-800 to-gray-900 text-white min-h-screen flex items-center justify-center">
+
+  <div class="bg-white/10 backdrop-blur-lg p-8 rounded-3xl shadow-lg w-full max-w-md">
+    <h2 class="text-3xl font-bold text-center text-yellow-400 mb-6">⚽ Update Your Skills</h2>
+
+    <form method="post">
+      {% csrf_token %}
+      <label for="skills">Your Skills</label>
+      <textarea name="skills" rows="4" style="color: black; padding: 14px;">{{ player.skills }}</textarea>
+      <div class="text-center mt-6">
+        <button type="submit" class="bg-yellow-400 text-gray-900 font-semibold px-6 py-2 rounded-lg hover:bg-yellow-300 transition-all">Save</button>
+      </div>
+    </form>
+
+    <div class="text-center mt-6">
+      <a href="{% url 'player_list' %}" class="text-gray-300 hover:text-white">⬅ Back to Profile</a>
+    </div>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Profile | SportVision Portal</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="shortcut icon"
+      href="https://www.freeiconspng.com/uploads/gold-trophy-transparent-1.png"
+      type="image/png">
+  <link rel="icon"
+      href="https://www.freeiconspng.com/uploads/gold-trophy-transparent-1.png"
+      type="image/png">
+
+  <style>
+    body {
+      background-image: url('https://images.unsplash.com/photo-1505842465776-3a8e7b6a4b8f');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+    }
+
+    .overlay {
+      background-color: rgba(0, 0, 0, 0.6);
+      width: 100%;
+      min-height: 100vh;
+    }
+
+    /* Inputs style */
+    input, select, textarea {
+      color: black !important;
+      background-color: white !important;
+      border-radius: 0.5rem;
+      padding: 14px;
+      width: 100%;
+      border: none;
+      outline: none;
+      font-size: 1rem;
+      transition: 0.2s ease;
+    }
+    input:focus, textarea:focus {
+      box-shadow: 0 0 0 2px #facc15;
+      transform: scale(1.01);
+    }
+
+    label {
+      color: #facc15;
+      font-weight: 600;
+      margin-bottom: 6px;
+      display: block;
+    }
+  </style>
+</head>
+
+<body class="text-white w-full overflow-x-hidden">
+
+  <div class="overlay flex flex-col items-center justify-start sm:justify-center py-10 sm:py-16 px-2 sm:px-4">
+
+    <!-- PROFILE CARD -->
+    <div class="bg-white/10 backdrop-blur-md rounded-3xl shadow-2xl w-full max-w-lg p-6 sm:p-10 text-center border border-white/20">
+
+      <img src="https://cdn-icons-png.flaticon.com/512/3135/3135768.png"
+           alt="Profile Icon"
+           class="w-20 sm:w-28 mx-auto mb-4">
+
+      <h1 class="text-xl sm:text-3xl font-extrabold text-yellow-300 mb-1 break-words">
+        {{ user.username }}
+      </h1>
+
+      <p class="text-gray-300 text-xs sm:text-base mb-3 break-words">
+        {{ user.email }}
+      </p>
+
+      <span class="bg-yellow-400 text-blue-900 text-xs sm:text-sm font-bold px-3 py-1 rounded-full uppercase">
+        {{ user.get_role_display }}
+      </span>
+
+      {% if messages %}
+      <div class="mt-4">
+        {% for message in messages %}
+          <p class="text-green-400 font-semibold text-xs sm:text-sm">{{ message }}</p>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      <!-- PLAYER SECTION -->
+      <div class="mt-8 text-left space-y-4 text-gray-200">
+
+        {% if player %}
+          {% if user.role == "player" %}
+
+          <!-- Editable Form -->
+          <form method="post" class="space-y-4">
+            {% csrf_token %}
+
+            <div>
+              <label for="age">Age</label>
+              <input type="number" name="age" value="{{ player.age }}">
+            </div>
+
+            <div>
+              <label for="contact">Contact</label>
+              <input type="text" name="contact" value="{{ player.contact }}">
+            </div>
+
+            <div>
+              <label for="skills">Skills</label>
+              <textarea name="skills" rows="3">{{ player.skills }}</textarea>
+            </div>
+
+            <div class="text-center pt-4">
+              <button type="submit"
+                      class="bg-yellow-400 text-gray-900 font-semibold px-6 py-2 rounded-lg hover:bg-yellow-300 transition-all w-full sm:w-auto">
+                💾 Update Profile
+              </button>
+            </div>
+
+          </form>
+
+          {% else %}
+
+          <!-- Read-only -->
+          <p><span class="font-semibold text-yellow-300">Age:</span> {{ player.age }}</p>
+          <p><span class="font-semibold text-yellow-300">Contact:</span> {{ player.contact }}</p>
+          <p><span class="font-semibold text-yellow-300">Skills:</span> {{ player.skills|default:"Not added" }}</p>
+
+          {% endif %}
+        {% else %}
+          <p class="text-center text-gray-300 italic mt-4">No player details found for this user.</p>
+        {% endif %}
+
+      </div>
+
+      <!-- BUTTONS -->
+      <div class="mt-10 flex flex-col sm:flex-row justify-center gap-4 w-full">
+        <a href="{% url 'home' %}"
+           class="bg-blue-500 hover:bg-blue-600 px-6 py-2 rounded-lg font-semibold transition-all text-center w-full sm:w-auto">
+           🏠 Home
+        </a>
+
+        <a href="{% url 'logout' %}"
+           class="bg-red-500 hover:bg-red-600 px-6 py-2 rounded-lg font-semibold transition-all text-center w-full sm:w-auto">
+           🚪 Logout
+        </a>
+      </div>
+
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="mt-8 text-gray-300 text-xs sm:text-sm text-center">
+      © 2025 <span class="text-yellow-300 font-semibold">Sports Management System</span>
+    </footer>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Events | SportVision Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="shortcut icon"
+      href="https://www.freeiconspng.com/uploads/gold-trophy-transparent-1.png"
+      type="image/png">
+<link rel="icon"
+      href="https://www.freeiconspng.com/uploads/gold-trophy-transparent-1.png"
+      type="image/png">
+  </head>
+  <body class="bg-gray-900 text-white min-h-screen">
+    <div class="max-w-6xl mx-auto py-10 px-4">
+      <h1 class="text-4xl font-bold text-yellow-400 mb-6 text-center">
+        🏆 Sports Events
+      </h1>
+      <div class="flex justify-center mb-6 gap-4">
+        <!-- Add Event -> ONLY ADMIN -->
+        {% if user.role == "admin" %}
+        <a
+          href="{% url 'event_create' %}"
+          class="bg-yellow-400 text-gray-900 px-5 py-2 rounded-lg font-semibold hover:bg-yellow-300"
+        >
+          ➕ Add Event
+        </a>
+        {% endif %}
+
+        <!-- Add Match -> ADMIN + COACH -->
+        {% if user.role == "admin" or user.role == "coach" %}
+        <a
+          href="{% url 'match_create' %}"
+          class="bg-blue-500 text-white px-5 py-2 rounded-lg font-semibold hover:bg-blue-400"
+        >
+          ⚔️ Add Match
+        </a>
+        {% endif %}
+
+        <!-- Home button always visible -->
+        <a
+          href="{% url 'home' %}"
+          class="bg-gray-600 px-5 py-2 rounded-lg hover:bg-gray-500"
+        >
+          🏠 Home
+        </a>
+      </div>
+
+      <!-- EVENTS TABLE -->
+      <h2 class="text-2xl font-semibold mb-3 text-yellow-300">All Events</h2>
+      <div class="overflow-x-auto">
+        <table class="w-full text-left bg-white/10 rounded-lg overflow-hidden">
+          <thead class="bg-yellow-500 text-gray-900">
+            <tr>
+              <th class="p-3">Name</th>
+              <th class="p-3">Date</th>
+              <th class="p-3">Location</th>
+              <th class="p-3">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for event in events %}
+            <tr class="border-b border-gray-700 hover:bg-white/5 transition">
+              <td class="p-3 font-semibold">{{ event.name }}</td>
+              <td class="p-3">{{ event.date }}</td>
+              <td class="p-3">{{ event.location }}</td>
+              <td class="p-3">
+                <a
+                  href="{% url 'event_update' event.pk %}"
+                  class="text-blue-400 hover:underline"
+                  >Edit</a
+                >
+                |
+                <a
+                  href="{% url 'event_delete' event.pk %}"
+                  class="text-red-400 hover:underline"
+                  >Delete</a
+                >
+              </td>
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="4" class="p-4 text-center text-gray-400">
+                No events found.
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <!-- MATCHES TABLE -->
+      <h2 class="text-2xl font-semibold mb-3 text-yellow-300 mt-10">
+        All Matches
+      </h2>
+      <div class="overflow-x-auto">
+        <table class="w-full text-left bg-white/10 rounded-lg overflow-hidden">
+          <thead class="bg-blue-500 text-white">
+            <tr>
+              <th class="p-3">Event</th>
+              <th class="p-3">Teams</th>
+              <th class="p-3">Match Date</th>
+              <th class="p-3">Result</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for match in matches %}
+            <tr class="border-b border-gray-700 hover:bg-white/5 transition">
+              <td class="p-3">{{ match.event.name }}</td>
+              <td class="p-3">
+                {{ match.team1.name }} vs {{ match.team2.name }}
+              </td>
+              <td class="p-3">{{ match.match_date }}</td>
+              <td class="p-3">{{ match.result|default:"Pending" }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="4" class="p-4 text-center text-gray-400">
+                No matches found.
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </body>
+</html>

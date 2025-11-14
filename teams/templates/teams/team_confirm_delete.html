@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Delete Team</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="shortcut icon"
+      href="https://www.freeiconspng.com/uploads/gold-trophy-transparent-1.png"
+      type="image/png">
+<link rel="icon"
+      href="https://www.freeiconspng.com/uploads/gold-trophy-transparent-1.png"
+      type="image/png">
+</head>
+<body class="bg-gradient-to-br from-red-900 via-red-800 to-black text-white min-h-screen flex items-center justify-center">
+
+  <div class="bg-white/10 backdrop-blur-lg p-8 rounded-3xl shadow-lg text-center max-w-md">
+    <h3 class="text-2xl font-semibold text-yellow-400 mb-6">
+      Are you sure you want to delete "<span class="text-white">{{ team.name }}</span>"?
+    </h3>
+
+    <form method="post">
+      {% csrf_token %}
+      <button type="submit" class="bg-red-500 hover:bg-red-600 px-6 py-2 rounded-lg font-bold transition">Yes, Delete</button>
+      <a href="{% url 'team_list' %}" class="bg-gray-600 hover:bg-gray-700 px-6 py-2 rounded-lg font-bold ml-3 transition">Cancel</a>
+    </form>
+  </div>
+
+</body>
+</html>

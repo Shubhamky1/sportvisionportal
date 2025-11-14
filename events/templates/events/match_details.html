@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Match Details</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="shortcut icon"
+      href="https://www.freeiconspng.com/uploads/gold-trophy-transparent-1.png"
+      type="image/png">
+<link rel="icon"
+      href="https://www.freeiconspng.com/uploads/gold-trophy-transparent-1.png"
+      type="image/png">
+</head>
+
+<body class="bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white min-h-screen flex items-center justify-center p-6">
+
+  <div class="max-w-4xl w-full bg-white/10 backdrop-blur-lg border border-white/20 shadow-2xl rounded-3xl p-8">
+
+    <!-- Match Header -->
+    <div class="text-center mb-10">
+      <h1 class="text-4xl font-extrabold text-yellow-300 drop-shadow">
+        {{ match.team1.name }} <span class="text-gray-300">vs</span> {{ match.team2.name }}
+      </h1>
+
+      <p class="text-gray-300 mt-3 text-lg">⏰ {{ match.match_date }}</p>
+      <p class="text-gray-300 text-lg">
+        🏆 Result:
+        <span class="text-green-400 font-semibold">
+          {{ match.result|default:"Pending" }}
+        </span>
+      </p>
+    </div>
+
+    <!-- Teams Container -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+      <!-- Team 1 -->
+      <div class="bg-white/10 rounded-2xl p-6 border border-white/10 hover:bg-white/20 transition">
+        <h2 class="text-2xl font-bold text-blue-300">Team 1: {{ match.team1.name }}</h2>
+
+        <p class="text-yellow-300 font-semibold mt-2">
+          👨‍🏫 Coach:
+          <span class="text-white">{{ team1_coach.username }}</span>
+        </p>
+
+        <h3 class="text-lg mt-4 mb-2 font-semibold text-gray-200">Players:</h3>
+        <ul class="list-disc ml-6 space-y-1 text-gray-300">
+          {% for p in team1_players %}
+            <li>{{ p.user.username }}</li>
+          {% empty %}
+            <li class="italic text-gray-500">No players assigned</li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <!-- Team 2 -->
+      <div class="bg-white/10 rounded-2xl p-6 border border-white/10 hover:bg-white/20 transition">
+        <h2 class="text-2xl font-bold text-red-300">Team 2: {{ match.team2.name }}</h2>
+
+        <p class="text-yellow-300 font-semibold mt-2">
+          👨‍🏫 Coach:
+          <span class="text-white">{{ team2_coach.username }}</span>
+        </p>
+
+        <h3 class="text-lg mt-4 mb-2 font-semibold text-gray-200">Players:</h3>
+        <ul class="list-disc ml-6 space-y-1 text-gray-300">
+          {% for p in team2_players %}
+            <li>{{ p.user.username }}</li>
+          {% empty %}
+            <li class="italic text-gray-500">No players assigned</li>
+          {% endfor %}
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Back Button -->
+    <div class="text-center mt-10">
+      <a href="{% url 'home' %}" 
+         class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg shadow-lg transition">
+        ⬅ Back to Events
+      </a>
+    </div>
+
+  </div>
+
+</body>
+</html>

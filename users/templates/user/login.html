@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login - SportVision Portal</title>
+
+  <link rel="shortcut icon"
+        href="https://www.freeiconspng.com/uploads/gold-trophy-transparent-1.png"
+        type="image/png">
+  <link rel="icon"
+        href="https://www.freeiconspng.com/uploads/gold-trophy-transparent-1.png"
+        type="image/png">
+
+  {% load static %}
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    .login-box input {
+      width: 100%;
+      padding: 12px;
+      margin: 12px 0;
+      border: none;
+      border-radius: 8px;
+      color: black;
+    }
+    .login-box button {
+      width: 100%;
+      background: white;
+      color: #1e90ff;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .login-box button:hover {
+      background: #e0e0e0;
+    }
+  </style>
+</head>
+
+<body class="bg-gradient-to-br from-blue-700 via-purple-900 to-black text-white min-h-screen flex flex-col justify-center items-center px-4">
+
+  <!-- LOGO TOP LEFT -->
+  <div class="absolute top-5 left-5 flex items-center gap-4">
+    <a href="{% url 'home' %}" title="Go to Home Page">
+      <img src="{% static 'logo.png' %}" class="w-12 h-12 sm:w-14 sm:h-14 rounded-xl shadow-lg" alt="Logo">
+    </a>
+  </div>
+
+  <!-- HEADER -->
+  <header class="text-center mb-5">
+    <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold uppercase tracking-wide drop-shadow-lg">
+      🏆 <span class="text-white">SportVision</span>
+      <span class="text-yellow-400">Portal</span>
+    </h1>
+    <p class="text-base sm:text-lg mt-3 text-gray-200">See the Game. Manage the Game!</p>
+  </header>
+
+  <!-- LOGIN BOX -->
+  <div class="login-box bg-white/10 backdrop-blur-md p-8 sm:p-10 rounded-xl shadow-xl w-full max-w-sm text-center">
+    <h2 class="text-2xl font-bold mb-4">Login</h2>
+
+    <form method="POST" class="w-full">
+      {% csrf_token %}
+      <input type="text" name="username" placeholder="Username" required>
+      <input type="password" name="password" placeholder="Password" required>
+
+      <button type="submit">Login</button>
+    </form>
+
+    <p class="mt-4 text-gray-300 text-sm sm:text-base">
+      Don't have an account? 
+      <a href="{% url 'register' %}" class="underline text-yellow-300 font-semibold">Register</a>
+    </p>
+  </div>
+
+</body>
+</html>

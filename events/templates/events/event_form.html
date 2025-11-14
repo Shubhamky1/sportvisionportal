@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="shortcut icon"
+      href="https://www.freeiconspng.com/uploads/gold-trophy-transparent-1.png"
+      type="image/png">
+<link rel="icon"
+      href="https://www.freeiconspng.com/uploads/gold-trophy-transparent-1.png"
+      type="image/png">
+  <title>{% if form.instance.pk %}Edit Event{% else %}Add New Event{% endif %}</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Input and label styling */
+    input, select, textarea {
+      color: black !important;
+      background-color: white !important;
+      border-radius: 0.5rem;
+      padding: 10px 12px;
+      width: 100%;
+      outline: none;
+      border: none;
+      transition: all 0.2s ease;
+    }
+    input:focus, select:focus, textarea:focus {
+      box-shadow: 0 0 0 2px #facc15;
+      transform: scale(1.02);
+    }
+    label {
+      color: #facc15; /* Tailwind yellow-400 */
+      font-weight: 600;
+      margin-bottom: 5px;
+      display: inline-block;
+    }
+  </style>
+</head>
+
+<body class="bg-gradient-to-br from-blue-700 via-blue-800 to-gray-900 text-white min-h-screen flex items-center justify-center">
+
+  <div class="bg-white/10 backdrop-blur-lg p-8 rounded-3xl shadow-lg w-full max-w-md">
+    <h2 class="text-3xl font-bold text-center text-yellow-400 mb-6">
+      {% if form.instance.pk %}✏️ Edit Event{% else %}➕ Add New Event{% endif %}
+    </h2>
+
+    <form method="post" class="space-y-5">
+      {% csrf_token %}
+
+      <!-- Render each field manually for better styling -->
+      <div>
+        <label for="{{ form.name.id_for_label }}">Event Name</label>
+        {{ form.name }}
+      </div>
+
+      <div>
+        <label for="{{ form.date.id_for_label }}">Event Date</label>
+        {{ form.date }}
+      </div>
+
+      <div>
+        <label for="{{ form.location.id_for_label }}">Location</label>
+        {{ form.location }}
+      </div>
+
+      <div class="text-center pt-4">
+        <button type="submit" class="bg-yellow-400 text-gray-900 font-semibold px-6 py-2 rounded-lg hover:bg-yellow-300 hover:scale-105 transition-all">
+          💾 Save
+        </button>
+      </div>
+    </form>
+
+    <div class="text-center mt-6">
+      <a href="{% url 'event_list' %}" class="text-gray-300 hover:text-white transition">⬅ Back to Events</a>
+    </div>
+  </div>
+
+</body>
+</html>

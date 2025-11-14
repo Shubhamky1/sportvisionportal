@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="shortcut icon"
+        href="https://www.freeiconspng.com/uploads/gold-trophy-transparent-1.png"
+        type="image/png">
+  <link rel="icon"
+        href="https://www.freeiconspng.com/uploads/gold-trophy-transparent-1.png"
+        type="image/png">
+
+  <title>Delete Event</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-900 text-white min-h-screen flex items-center justify-center p-4">
+
+  <div class="bg-white/10 backdrop-blur-lg p-6 sm:p-8 rounded-3xl shadow-lg text-center w-full max-w-md">
+
+    <h3 class="text-xl sm:text-2xl text-yellow-400 font-semibold mb-6 break-words px-2">
+      Are you sure you want to delete "{{ event.name }}"?
+    </h3>
+
+    <form method="post" class="flex flex-col sm:flex-row items-center justify-center gap-3">
+      {% csrf_token %}
+
+      <button type="submit"
+              class="bg-red-500 hover:bg-red-600 w-full sm:w-auto px-6 py-2 rounded-lg font-bold">
+        Yes, Delete
+      </button>
+
+      <a href="{% url 'event_list' %}"
+         class="bg-gray-600 hover:bg-gray-700 w-full sm:w-auto px-6 py-2 rounded-lg font-bold">
+        Cancel
+      </a>
+    </form>
+
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  {% load static %}
+
+  <link rel="shortcut icon"
+        href="https://www.freeiconspng.com/uploads/gold-trophy-transparent-1.png"
+        type="image/png">
+  <link rel="icon"
+        href="https://www.freeiconspng.com/uploads/gold-trophy-transparent-1.png"
+        type="image/png">
+
+  <title>SportVision Portal</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gradient-to-br from-blue-700 via-purple-900 to-black text-white min-h-screen flex flex-col">
+
+  {% load static %}
+
+  <!-- ======================
+       FIXED RESPONSIVE NAVBAR
+       ====================== -->
+  <header class="fixed inset-x-0 top-0 z-50 bg-black/30 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+
+        <!-- LEFT: Logo -->
+        <div class="flex-shrink-0 flex items-center">
+          <a href="{% url 'home' %}" title="Go to Home Page" class="inline-flex items-center gap-3">
+            <img src="{% static 'logo.png' %}" alt="Logo"
+                 class="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-lg shadow-md">
+            <span class="hidden sm:inline-block font-bold text-white text-sm md:text-base">
+              <span class="text-white">SportVision</span>
+              <span class="text-yellow-400 ml-1">Portal</span>
+            </span>
+          </a>
+        </div>
+
+        <!-- MIDDLE (optional empty for spacing) -->
+        <div class="hidden md:flex md:items-center md:justify-center md:flex-1">
+          <!-- Keep this area if you want centered nav links later -->
+        </div>
+
+        <!-- RIGHT: Actions (desktop) -->
+        <div class="hidden sm:flex sm:items-center sm:gap-3">
+
+          {% if user.is_authenticated %}
+            <span class="text-yellow-300 font-semibold text-sm md:text-base whitespace-nowrap">
+              Welcome, {{ user.username }}
+            </span>
+
+            <span class="text-gray-300 text-xs md:text-sm bg-white/10 px-3 py-1 rounded-full border border-white/20">
+              {{ user.get_role_display }}
+            </span>
+
+            <a href="{% url 'logout' %}"
+               class="bg-red-600 hover:bg-red-700 text-white font-bold text-sm md:text-base py-2 px-3 rounded-lg transition whitespace-nowrap">
+              Logout
+            </a>
+
+          {% else %}
+
+            <a href="{% url 'login' %}" 
+               class="bg-white text-blue-700 font-bold text-sm md:text-base py-2 px-3 rounded-lg hover:bg-gray-200 transition whitespace-nowrap">
+              Login
+            </a>
+
+            <a href="{% url 'register' %}" 
+               class="bg-yellow-400 text-blue-900 font-bold text-sm md:text-base py-2 px-3 rounded-lg hover:bg-yellow-300 transition whitespace-nowrap">
+              Register
+            </a>
+
+          {% endif %}
+
+        </div>
+
+        <!-- HAMBURGER (mobile) -->
+        <div class="sm:hidden flex items-center">
+          <button id="nav-toggle" aria-controls="mobile-menu" aria-expanded="false"
+                  class="p-2 rounded-md inline-flex items-center justify-center hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-400">
+            <svg id="icon-open" class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+            <svg id="icon-close" class="h-6 w-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- MOBILE MENU -->
+    <div id="mobile-menu" class="sm:hidden hidden px-4 pb-4">
+      <div class="space-y-3">
+
+        {% if user.is_authenticated %}
+          <div class="flex items-center gap-3">
+            <img src="{% static 'logo.png' %}" alt="logo" class="w-8 h-8 rounded-md">
+            <div class="flex flex-col">
+              <span class="text-yellow-300 font-semibold text-sm truncate">{{ user.username }}</span>
+              <span class="text-gray-300 text-xs bg-white/5 px-2 py-0.5 rounded-full">{{ user.get_role_display }}</span>
+            </div>
+          </div>
+
+          <div class="flex flex-col gap-2 mt-2">
+            <a href="{% url 'logout' %}" class="block text-center bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-3 rounded-lg">
+              Logout
+            </a>
+          </div>
+
+        {% else %}
+
+          <div class="flex flex-col gap-2">
+            <a href="{% url 'login' %}" class="block text-center bg-white text-blue-700 font-bold py-2 px-3 rounded-lg hover:bg-gray-200">
+              Login
+            </a>
+            <a href="{% url 'register' %}" class="block text-center bg-yellow-400 text-blue-900 font-bold py-2 px-3 rounded-lg hover:bg-yellow-300">
+              Register
+            </a>
+          </div>
+
+        {% endif %}
+
+      </div>
+    </div>
+  </header>
+  <!-- /NAVBAR -->
+
+  <!-- Make room for fixed navbar: give top padding equal or larger than header height -->
+  <main class="flex-1 pt-20"> <!-- 20 ~ header height (h-16) + some breathing room -->
+
+    <!-- HEADER HERO -->
+    <section class="text-center py-8">
+      <h1 class="text-4xl md:text-5xl font-extrabold uppercase tracking-wide drop-shadow-lg">
+        🏆 
+        <span class="text-white">SportVision</span>
+        <span class="text-yellow-400">Portal</span>
+      </h1>
+      <p class="text-lg mt-3 text-gray-200">See the Game. Manage the Game!</p>
+    </section>
+
+    <!-- MAIN CONTENT -->
+    <div class="flex flex-col items-center">
+
+      {% if user.is_authenticated %}
+
+        <!-- DASHBOARD CARDS -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 px-6 max-w-6xl">
+
+          {% if user.role == "admin" %}
+          
+            <!-- Manage Players -->
+            <a href="{% url 'player_list' %}" 
+               class="group bg-white/10 hover:bg-white/20 backdrop-blur-md rounded-2xl p-8 shadow-lg border border-white/10 transition-all hover:scale-105 hover:shadow-yellow-400/30">
+              <img src="https://cdn-icons-png.flaticon.com/512/2348/2348811.png" class="w-16 mx-auto mb-3">
+              <h3 class="text-xl font-bold text-yellow-300 group-hover:text-yellow-200">Manage Players</h3>
+              <p class="text-sm text-gray-200 mt-1">Add, update, and view player details.</p>
+            </a>
+
+            <!-- Manage Teams -->
+            <a href="{% url 'team_list' %}" 
+               class="group bg-white/10 hover:bg-white/20 backdrop-blur-md rounded-2xl p-8 shadow-lg border border-white/10 transition-all hover:scale-105 hover:shadow-yellow-400/30">
+              <img src="https://www.freeiconspng.com/uploads/team-icon-27.png" class="w-16 mx-auto mb-3">
+              <h3 class="text-xl font-bold text-yellow-300 group-hover:text-yellow-200">Manage Teams</h3>
+              <p class="text-sm text-gray-200 mt-1">Create teams and assign coaches/players.</p>
+            </a>
+
+            <!-- Manage Events -->
+            <a href="{% url 'event_list' %}" 
+               class="group bg-white/10 hover:bg-white/20 backdrop-blur-md rounded-2xl p-8 shadow-lg border border-white/10 transition-all hover:scale-105 hover:shadow-yellow-400/30">
+              <img src="https://www.freeiconspng.com/uploads/calendar-date-event-month-icon--19.png" class="w-16 mx-auto mb-3">
+              <h3 class="text-xl font-bold text-yellow-300 group-hover:text-yellow-200">Manage Events</h3>
+              <p class="text-sm text-gray-200 mt-1">Organize matches and tournaments.</p>
+            </a>
+
+          {% elif user.role == "coach" %}
+
+            <!-- My Team -->
+            <a href="{% url 'team_list' %}" 
+               class="group bg-white/10 hover:bg-white/20 backdrop-blur-md rounded-2xl p-8 shadow-lg border border-white/10 transition-all hover:scale-105 hover:shadow-yellow-400/30">
+              <img src="https://www.freeiconspng.com/uploads/team-icon-27.png" class="w-16 mx-auto mb-3">
+              <h3 class="text-xl font-bold text-yellow-300 group-hover:text-yellow-200">My Team</h3>
+              <p class="text-sm text-gray-200 mt-1">View and manage your assigned team.</p>
+            </a>
+
+            <!-- View Players -->
+            <a href="{% url 'player_list' %}" 
+               class="group bg-white/10 hover:bg-white/20 backdrop-blur-md rounded-2xl p-8 shadow-lg border border-white/10 transition-all hover:scale-105 hover:shadow-yellow-400/30">
+              <img src="https://cdn-icons-png.flaticon.com/512/2348/2348811.png" class="w-16 mx-auto mb-3">
+              <h3 class="text-xl font-bold text-yellow-300 group-hover:text-yellow-200">View Players</h3>
+              <p class="text-sm text-gray-200 mt-1">Check all registered players.</p>
+            </a>
+
+            <!-- Events -->
+            <a href="{% url 'event_list' %}" 
+               class="group bg-white/10 hover:bg-white/20 backdrop-blur-md rounded-2xl p-8 shadow-lg border border-white/10 transition-all hover:scale-105 hover:shadow-yellow-400/30">
+              <img src="https://www.freeiconspng.com/uploads/calendar-date-event-month-icon--19.png" class="w-16 mx-auto mb-3">
+              <h3 class="text-xl font-bold text-yellow-300 group-hover:text-yellow-200">Upcoming Matches</h3>
+              <p class="text-sm text-gray-200 mt-1">Stay updated on upcoming matches.</p>
+            </a>
+
+          {% elif user.role == "player" %}
+
+            <!-- My Profile -->
+            <a href="{% url 'profile' %}" 
+               class="group bg-white/10 hover:bg-white/20 backdrop-blur-md rounded-2xl p-8 shadow-lg border border-white/10 transition-all hover:scale-105 hover:shadow-yellow-400/30">
+              <img src="https://cdn-icons-png.flaticon.com/512/3135/3135768.png" class="w-16 mx-auto mb-3">
+              <h3 class="text-xl font-bold text-yellow-300 group-hover:text-yellow-200">My Profile</h3>
+              <p class="text-sm text-gray-200 mt-1">View and edit your personal info.</p>
+            </a>
+
+            <!-- Upcoming Matches -->
+            <a href="{% url 'event_list' %}" 
+               class="group bg-white/10 hover:bg-white/20 backdrop-blur-md rounded-2xl p-8 shadow-lg border border-white/10 transition-all hover:scale-105 hover:shadow-yellow-400/30">
+              <img src="https://www.freeiconspng.com/uploads/calendar-date-event-month-icon--19.png" class="w-16 mx-auto mb-3">
+              <h3 class="text-xl font-bold text-yellow-300 group-hover:text-yellow-200">Upcoming Matches</h3>
+              <p class="text-sm text-gray-200 mt-1">Check your next match schedule.</p>
+            </a>
+
+          {% endif %}
+        </div>
+
+      {% endif %}
+
+      <!-- NEWS SECTION -->
+      <div class="w-full max-w-5xl mt-10 px-4">
+
+        <!-- UPCOMING EVENTS -->
+        <h2 class="text-3xl font-bold text-yellow-300 mb-4">📅 Upcoming Events</h2>
+        <div class="space-y-3">
+          {% for event in upcoming_events %}
+            <a href="{% url 'event_details' event.pk %}" 
+               class="block bg-white/10 hover:bg-white/20 p-4 rounded-xl transition shadow-md">
+              <div class="flex justify-between">
+                <span class="font-bold text-yellow-200 text-lg">{{ event.name }}</span>
+                <span class="text-gray-300">{{ event.date }}</span>
+              </div>
+              <p class="text-gray-400 text-sm">📍 {{ event.location }}</p>
+            </a>
+          {% empty %}
+            <p class="text-gray-400 italic">No upcoming events.</p>
+          {% endfor %}
+        </div>
+
+        <!-- UPCOMING MATCHES -->
+        <h2 class="text-3xl font-bold text-blue-300 mt-12 mb-4">⚔ Upcoming Matches</h2>
+        <div class="space-y-3">
+          {% for match in upcoming_matches %}
+            <a href="{% url 'match_details' match.pk %}" 
+               class="block bg-white/10 hover:bg-white/20 p-4 rounded-xl transition shadow-md">
+              <div class="flex justify-between">
+                <span class="font-bold text-blue-200 text-lg">{{ match.team1.name }} vs {{ match.team2.name }}</span>
+                <span class="text-gray-300">{{ match.match_date }}</span>
+              </div>
+              <p class="text-gray-400 text-sm">🏆 Event: {{ match.event.name }}</p>
+            </a>
+          {% empty %}
+            <p class="text-gray-400 italic">No upcoming matches.</p>
+          {% endfor %}
+        </div>
+
+        <!-- RECENT RESULTS -->
+        <h2 class="text-3xl font-bold text-green-300 mt-12 mb-4">🏆 Recent Match Results</h2>
+        <div class="space-y-3">
+          {% for result in recent_results %}
+            <a href="{% url 'match_details' result.pk %}" 
+               class="block bg-white/10 hover:bg-white/20 p-4 rounded-xl transition shadow-md">
+              <div class="flex justify-between">
+                <span class="font-bold text-green-200 text-lg">{{ result.team1.name }} vs {{ result.team2.name }}</span>
+                <span class="text-gray-300">{{ result.match_date }}</span>
+              </div>
+              <p class="text-gray-400 text-sm">Result: {{ result.result }}</p>
+            </a>
+          {% empty %}
+            <p class="text-gray-400 italic">No match results available.</p>
+          {% endfor %}
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="text-center py-5 text-gray-300 text-sm">
+    © 2025 <span class="text-yellow-300 font-semibold">SportVision Portal</span> 
+  </footer>
+
+  <!-- Simple JS for mobile toggle -->
+  <script>
+    (function() {
+      const btn = document.getElementById('nav-toggle');
+      const menu = document.getElementById('mobile-menu');
+      const iconOpen = document.getElementById('icon-open');
+      const iconClose = document.getElementById('icon-close');
+
+      if (!btn || !menu) return;
+
+      btn.addEventListener('click', function () {
+        const isHidden = menu.classList.contains('hidden');
+        if (isHidden) {
+          menu.classList.remove('hidden');
+          iconOpen.classList.add('hidden');
+          iconClose.classList.remove('hidden');
+          btn.setAttribute('aria-expanded', 'true');
+        } else {
+          menu.classList.add('hidden');
+          iconOpen.classList.remove('hidden');
+          iconClose.classList.add('hidden');
+          btn.setAttribute('aria-expanded', 'false');
+        }
+      });
+
+      // close mobile menu on resize to larger screens
+      window.addEventListener('resize', function () {
+        if (window.innerWidth >= 640) { // sm breakpoint
+          if (!menu.classList.contains('hidden')) {
+            menu.classList.add('hidden');
+            iconOpen.classList.remove('hidden');
+            iconClose.classList.add('hidden');
+            btn.setAttribute('aria-expanded', 'false');
+          }
+        }
+      });
+    })();
+  </script>
+
+</body>
+</html>

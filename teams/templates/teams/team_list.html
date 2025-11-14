@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Teams | SportVision Portal</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="shortcut icon"
+      href="https://www.freeiconspng.com/uploads/gold-trophy-transparent-1.png"
+      type="image/png">
+<link rel="icon"
+      href="https://www.freeiconspng.com/uploads/gold-trophy-transparent-1.png"
+      type="image/png">
+</head>
+<body class="bg-gradient-to-br from-blue-900 via-gray-900 to-black text-white min-h-screen">
+
+  <div class="max-w-5xl mx-auto py-10 px-4">
+    <h1 class="text-4xl font-extrabold text-yellow-400 mb-8 text-center">🏆 Teams</h1>
+
+    <div class="text-center mb-6">
+      <a href="{% url 'team_create' %}" class="bg-yellow-400 hover:bg-yellow-300 text-gray-900 font-semibold px-6 py-2 rounded-lg shadow-md transition">
+        ➕ Add Team
+      </a>
+    </div>
+
+    {% if teams %}
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {% for team in teams %}
+        <div class="bg-white/10 backdrop-blur-lg p-6 rounded-2xl shadow-xl border border-white/10 hover:shadow-yellow-400/30 transition">
+          <h2 class="text-2xl font-bold text-yellow-300 mb-2">{{ team.name }}</h2>
+          <p class="text-gray-300 mb-4">
+            <span class="font-semibold text-yellow-400">Coach:</span> {{ team.coach.username|default:"Not assigned" }}
+          </p>
+
+          {% if team.players.all %}
+          <p class="text-sm text-gray-400 mb-2"><span class="text-yellow-400 font-semibold">Players:</span>
+            {% for player in team.players.all %}
+              {{ player.user.username }}{% if not forloop.last %}, {% endif %}
+            {% empty %}
+              <span class="text-gray-500 italic">No players added</span>
+            {% endfor %}
+          </p>
+          {% endif %}
+
+          <div class="mt-4 flex gap-3">
+            <a href="{% url 'team_update' team.pk %}" class="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded-lg font-semibold shadow-md transition">✏️ Edit</a>
+            <a href="{% url 'team_delete' team.pk %}" class="bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg font-semibold shadow-md transition">🗑️ Delete</a>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p class="text-center text-gray-300 mt-10 text-lg">No teams available.</p>
+    {% endif %}
+
+    <div class="text-center mt-10">
+      <a href="{% url 'home' %}" class="text-gray-300 hover:text-yellow-300 transition">🏠 Back to Home</a>
+    </div>
+  </div>
+</body>
+</html>
